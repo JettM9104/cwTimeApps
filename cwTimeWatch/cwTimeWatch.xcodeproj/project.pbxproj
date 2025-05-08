@@ -1,0 +1,671 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A44A690E2DCCEE4E0015674E /* cwTimeWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A44A690D2DCCEE4E0015674E /* cwTimeWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A44A690F2DCCEE4E0015674E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A44A69012DCCEE4D0015674E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A44A690C2DCCEE4E0015674E;
+			remoteInfo = "cwTimeWatch Watch App";
+		};
+		A44A691D2DCCEE530015674E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A44A69012DCCEE4D0015674E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A44A690C2DCCEE4E0015674E;
+			remoteInfo = "cwTimeWatch Watch App";
+		};
+		A44A69272DCCEE530015674E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A44A69012DCCEE4D0015674E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A44A690C2DCCEE4E0015674E;
+			remoteInfo = "cwTimeWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A44A69332DCCEE530015674E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				A44A690E2DCCEE4E0015674E /* cwTimeWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A44A69072DCCEE4E0015674E /* cwTimeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cwTimeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A44A690D2DCCEE4E0015674E /* cwTimeWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cwTimeWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A44A691C2DCCEE530015674E /* cwTimeWatch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cwTimeWatch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A44A69262DCCEE530015674E /* cwTimeWatch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cwTimeWatch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A44A69112DCCEE4E0015674E /* cwTimeWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "cwTimeWatch Watch App";
+			sourceTree = "<group>";
+		};
+		A44A691F2DCCEE530015674E /* cwTimeWatch Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "cwTimeWatch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		A44A69292DCCEE530015674E /* cwTimeWatch Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "cwTimeWatch Watch AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A44A690A2DCCEE4E0015674E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A69192DCCEE530015674E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A69232DCCEE530015674E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A44A69002DCCEE4D0015674E = {
+			isa = PBXGroup;
+			children = (
+				A44A69112DCCEE4E0015674E /* cwTimeWatch Watch App */,
+				A44A691F2DCCEE530015674E /* cwTimeWatch Watch AppTests */,
+				A44A69292DCCEE530015674E /* cwTimeWatch Watch AppUITests */,
+				A44A69082DCCEE4E0015674E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A44A69082DCCEE4E0015674E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A44A69072DCCEE4E0015674E /* cwTimeWatch.app */,
+				A44A690D2DCCEE4E0015674E /* cwTimeWatch Watch App.app */,
+				A44A691C2DCCEE530015674E /* cwTimeWatch Watch AppTests.xctest */,
+				A44A69262DCCEE530015674E /* cwTimeWatch Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A44A69062DCCEE4E0015674E /* cwTimeWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A44A69342DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch" */;
+			buildPhases = (
+				A44A69052DCCEE4E0015674E /* Resources */,
+				A44A69332DCCEE530015674E /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A44A69102DCCEE4E0015674E /* PBXTargetDependency */,
+			);
+			name = cwTimeWatch;
+			packageProductDependencies = (
+			);
+			productName = cwTimeWatch;
+			productReference = A44A69072DCCEE4E0015674E /* cwTimeWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		A44A690C2DCCEE4E0015674E /* cwTimeWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A44A69302DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch Watch App" */;
+			buildPhases = (
+				A44A69092DCCEE4E0015674E /* Sources */,
+				A44A690A2DCCEE4E0015674E /* Frameworks */,
+				A44A690B2DCCEE4E0015674E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A44A69112DCCEE4E0015674E /* cwTimeWatch Watch App */,
+			);
+			name = "cwTimeWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "cwTimeWatch Watch App";
+			productReference = A44A690D2DCCEE4E0015674E /* cwTimeWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A44A691B2DCCEE530015674E /* cwTimeWatch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A44A69372DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch Watch AppTests" */;
+			buildPhases = (
+				A44A69182DCCEE530015674E /* Sources */,
+				A44A69192DCCEE530015674E /* Frameworks */,
+				A44A691A2DCCEE530015674E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A44A691E2DCCEE530015674E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A44A691F2DCCEE530015674E /* cwTimeWatch Watch AppTests */,
+			);
+			name = "cwTimeWatch Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "cwTimeWatch Watch AppTests";
+			productReference = A44A691C2DCCEE530015674E /* cwTimeWatch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A44A69252DCCEE530015674E /* cwTimeWatch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A44A693A2DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch Watch AppUITests" */;
+			buildPhases = (
+				A44A69222DCCEE530015674E /* Sources */,
+				A44A69232DCCEE530015674E /* Frameworks */,
+				A44A69242DCCEE530015674E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A44A69282DCCEE530015674E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A44A69292DCCEE530015674E /* cwTimeWatch Watch AppUITests */,
+			);
+			name = "cwTimeWatch Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "cwTimeWatch Watch AppUITests";
+			productReference = A44A69262DCCEE530015674E /* cwTimeWatch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A44A69012DCCEE4D0015674E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					A44A69062DCCEE4E0015674E = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					A44A690C2DCCEE4E0015674E = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					A44A691B2DCCEE530015674E = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = A44A690C2DCCEE4E0015674E;
+					};
+					A44A69252DCCEE530015674E = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = A44A690C2DCCEE4E0015674E;
+					};
+				};
+			};
+			buildConfigurationList = A44A69042DCCEE4D0015674E /* Build configuration list for PBXProject "cwTimeWatch" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A44A69002DCCEE4D0015674E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A44A69082DCCEE4E0015674E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A44A69062DCCEE4E0015674E /* cwTimeWatch */,
+				A44A690C2DCCEE4E0015674E /* cwTimeWatch Watch App */,
+				A44A691B2DCCEE530015674E /* cwTimeWatch Watch AppTests */,
+				A44A69252DCCEE530015674E /* cwTimeWatch Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A44A69052DCCEE4E0015674E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A690B2DCCEE4E0015674E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A691A2DCCEE530015674E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A69242DCCEE530015674E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A44A69092DCCEE4E0015674E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A69182DCCEE530015674E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A44A69222DCCEE530015674E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A44A69102DCCEE4E0015674E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A44A690C2DCCEE4E0015674E /* cwTimeWatch Watch App */;
+			targetProxy = A44A690F2DCCEE4E0015674E /* PBXContainerItemProxy */;
+		};
+		A44A691E2DCCEE530015674E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A44A690C2DCCEE4E0015674E /* cwTimeWatch Watch App */;
+			targetProxy = A44A691D2DCCEE530015674E /* PBXContainerItemProxy */;
+		};
+		A44A69282DCCEE530015674E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A44A690C2DCCEE4E0015674E /* cwTimeWatch Watch App */;
+			targetProxy = A44A69272DCCEE530015674E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A44A692E2DCCEE530015674E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A44A692F2DCCEE530015674E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A44A69312DCCEE530015674E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = cwTimeWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		A44A69322DCCEE530015674E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = cwTimeWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		A44A69352DCCEE530015674E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				INFOPLIST_KEY_CFBundleDisplayName = cwTimeWatch;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A44A69362DCCEE530015674E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				INFOPLIST_KEY_CFBundleDisplayName = cwTimeWatch;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A44A69382DCCEE530015674E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cwTimeWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/cwTimeWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		A44A69392DCCEE530015674E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cwTimeWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/cwTimeWatch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		A44A693B2DCCEE530015674E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "cwTimeWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		A44A693C2DCCEE530015674E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NUXD6JP78F;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jett-Mu.cwTimeWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "cwTimeWatch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A44A69042DCCEE4D0015674E /* Build configuration list for PBXProject "cwTimeWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A44A692E2DCCEE530015674E /* Debug */,
+				A44A692F2DCCEE530015674E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A44A69302DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A44A69312DCCEE530015674E /* Debug */,
+				A44A69322DCCEE530015674E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A44A69342DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A44A69352DCCEE530015674E /* Debug */,
+				A44A69362DCCEE530015674E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A44A69372DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A44A69382DCCEE530015674E /* Debug */,
+				A44A69392DCCEE530015674E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A44A693A2DCCEE530015674E /* Build configuration list for PBXNativeTarget "cwTimeWatch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A44A693B2DCCEE530015674E /* Debug */,
+				A44A693C2DCCEE530015674E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A44A69012DCCEE4D0015674E /* Project object */;
+}
