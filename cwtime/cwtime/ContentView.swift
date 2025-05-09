@@ -8,7 +8,7 @@ struct DictionaryEntry: Identifiable {
     let definition: String
 }
 
-// Sample abbreviation dictionary
+// MARK: - Dictionary
 let abbreviations: [DictionaryEntry] = [
     // Letters
     .init(abbreviation: "A", definition: ".-"),
@@ -204,13 +204,13 @@ struct ContentView: View {
                             Button {
                                 showingDictionary = true
                             } label: {
-                                Image(systemName: "book.fill").font(.title)
+                                Image(systemName: "character.book.closed").font(.title)
                             }
                             .accessibilityLabel("Dictionary")
                             Button {
                                 showingSettings = true
                             } label: {
-                                Image(systemName: "gearshape.fill").font(.title)
+                                Image(systemName: "gearshape").font(.title)
                             }
                             .accessibilityLabel("Settings")
                             .padding(.trailing)
