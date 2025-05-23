@@ -175,7 +175,7 @@ struct ContentView: View {
     @State private var morseBuffer = ""
     @State private var decodedText = ""
     @State private var lastInputTime: Date = Date()
-
+ 
     @State private var elementQueue: [MorseElement] = []
     @State private var keyingWorkItem: DispatchWorkItem? = nil
     @State private var lastElement: MorseElement = .dah
@@ -405,7 +405,7 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section(header: Text("Speed (WPM)")) {
-                    Slider(value: $wpm, in: 5...40, step: 1)
+                    Slider(value: $wpm, in: 5...45, step: 1)
                     Text("\(Int(wpm)) WPM")
                 }
                 Section(header: Text("Frequency (Hz)")) {

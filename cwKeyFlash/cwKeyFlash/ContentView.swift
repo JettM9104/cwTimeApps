@@ -4,6 +4,7 @@ import AVFoundation
 struct ContentView: View {
     @State private var inputText = ""
     @State private var isFlashing = false
+    @State private var isTorchOn = false // <-- New state to track torch status
 
     let morseCodeMap: [Character: String] = [
         "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".",
@@ -19,6 +20,20 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            // Torch status box
+            HStack {
+                Circle()
+                    .fill(isTorchOn ? Color.green : Color.red)
+                    .frame(width: 15, height: 15)
+                Text(isTorchOn ? "Torch ON" : "Torch OFF")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            .padding(8)
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+            .padding(.top)
+
             TextField("Enter text", text: $inputText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
@@ -41,7 +56,7 @@ struct ContentView: View {
 
     func flashMorseCode(for text: String) async {
         isFlashing = true
-        let unit: UInt64 = 100_000_000 // 200 ms
+        let unit: UInt64 = 100_000_000 // 100 ms
 
         let words = text.uppercased().split(separator: " ")
         for (wordIndex, word) in words.enumerated() {
@@ -54,19 +69,19 @@ struct ContentView: View {
                     try? await Task.sleep(nanoseconds: symbol == "." ? unit : unit * 3)
                     toggleTorch(on: false)
 
-                    // Pause between symbols **only if not last**
+                    // Pause between symbols
                     if symbolIndex < morse.count - 1 {
                         try? await Task.sleep(nanoseconds: unit)
                     }
                 }
 
-                // Pause between letters **only if not last**
+                // Pause between letters
                 if letterIndex < word.count - 1 {
                     try? await Task.sleep(nanoseconds: unit * 3)
                 }
             }
 
-            // Pause between words **only if not last**
+            // Pause between words
             if wordIndex < words.count - 1 {
                 try? await Task.sleep(nanoseconds: unit * 7)
             }
@@ -87,6 +102,7 @@ struct ContentView: View {
             } else {
                 device.torchMode = .off
             }
+            isTorchOn = on // <-- Update torch status
             device.unlockForConfiguration()
         } catch {
             print("Torch error: \(error)")
