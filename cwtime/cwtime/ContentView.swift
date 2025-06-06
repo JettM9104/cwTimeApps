@@ -389,7 +389,7 @@ struct DictionaryCategoryView: View {
                 ForEach(entriesInCategory) { entry in
                     // Each entry becomes a “card” with centered content:
                     VStack(spacing: 4) {
-                        Text(entry.definition)
+                        Text(entry.abbreviation)
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
