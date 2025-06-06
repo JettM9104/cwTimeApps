@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		A48EE5C12DDCE24000B27F28 /* adsf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A48EE5C02DDCE24000B27F28 /* adsf.cpp */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		A4B0225E2DDBE38A00666DC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -28,9 +24,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A48EE5BE2DDCE24000B27F28 /* cwKeyFlash-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cwKeyFlash-Bridging-Header.h"; sourceTree = "<group>"; };
-		A48EE5BF2DDCE24000B27F28 /* adsf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = adsf.hpp; path = "/Users/jettmu/Documents/Xcode Projects/adsf.hpp"; sourceTree = "<absolute>"; };
-		A48EE5C02DDCE24000B27F28 /* adsf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = adsf.cpp; path = "/Users/jettmu/Documents/Xcode Projects/adsf.cpp"; sourceTree = "<absolute>"; };
 		A4B0224F2DDBE38900666DC0 /* cwKeyFlash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cwKeyFlash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B0225D2DDBE38A00666DC0 /* cwKeyFlashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cwKeyFlashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B022672DDBE38A00666DC0 /* cwKeyFlashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cwKeyFlashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,13 +75,10 @@
 		A4B022462DDBE38900666DC0 = {
 			isa = PBXGroup;
 			children = (
-				A48EE5BF2DDCE24000B27F28 /* adsf.hpp */,
-				A48EE5C02DDCE24000B27F28 /* adsf.cpp */,
 				A4B022512DDBE38900666DC0 /* cwKeyFlash */,
 				A4B022602DDBE38A00666DC0 /* cwKeyFlashTests */,
 				A4B0226A2DDBE38A00666DC0 /* cwKeyFlashUITests */,
 				A4B022502DDBE38900666DC0 /* Products */,
-				A48EE5BE2DDCE24000B27F28 /* cwKeyFlash-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,7 +237,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A48EE5C12DDCE24000B27F28 /* adsf.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
