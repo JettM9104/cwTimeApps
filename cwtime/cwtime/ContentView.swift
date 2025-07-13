@@ -155,7 +155,7 @@ struct ContentView: View {
     @State private var morseBuffer = ""
     @State private var decodedText = ""
     @State private var lastInputTime: Date = Date()
- 
+
     @State private var elementQueue: [MorseElement] = []
     @State private var keyingWorkItem: DispatchWorkItem? = nil
     @State private var lastElement: MorseElement = .dah
@@ -168,50 +168,78 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geo in
-                VStack(spacing: 0) {
+                ZStack {
+                    // Main layout stack (what's currently on screen)
                     VStack(spacing: 12) {
-                        Text("Morse: \(morseBuffer)").font(.title2)
-                        Text("Text: \(decodedText)").font(.headline)
-                        HStack(spacing: 20) {
-                            Button {
-                                morseBuffer = ""
-                                decodedText = ""
-                            } label: {
-                                Image(systemName: "trash").font(.title)
-                            }
-                            .accessibilityLabel("Clear")
-                            Spacer()
-                            Button {
-                                showingDictionary = true
-                            } label: {
-                                Image(systemName: "character.book.closed").font(.title)
-                            }
-                            .accessibilityLabel("Dictionary")
-                            Button {
-                                showingSettings = true
-                            } label: {
-                                Image(systemName: "gearshape").font(.title)
-                            }
-                            .accessibilityLabel("Settings")
-                            .padding(.trailing)
-                        }
-                    }
-                    .frame(height: geo.size.height / 2)
+            
+                        Text("\(decodedText)")
+                            .font(.headline)
+                        
+                        Text("\(morseBuffer)")
+                            .font(.title)
+                        Spacer()
 
-                    HStack(spacing: 0) {
-                        paddleView(isPressed: $isDitPressed, element: .dit, color: .blue)
-                        paddleView(isPressed: $isDahPressed, element: .dah, color: .green)
+                        HStack(spacing: 0) {
+                            paddleView(isPressed: $isDitPressed, element: .dit, color: .blue)
+                            paddleView(isPressed: $isDahPressed, element: .dah, color: .green)
+                        }
+                        .frame(height: geo.size.height / 2)
                     }
-                    .frame(height: geo.size.height / 2)
+                    .padding()
+
+                    // ✅ BOTTOM LEFT MENU BUTTON STACK
+                    VStack(spacing: 12) {
+                        Button {
+                            morseBuffer = ""
+                            decodedText = ""
+                        } label: {
+                            Image(systemName: "trash")
+                                .font(.title2)
+                                .foregroundColor(.red)
+                                .padding(10)
+                                .background(Circle().fill(Color.red.opacity(0.15)))
+                        }
+                        .accessibilityLabel("Clear")
+
+                        Button {
+                            showingDictionary = true
+                        } label: {
+                            Image(systemName: "character.book.closed")
+                                .font(.title2)
+                                .foregroundColor(.blue)
+                                .padding(10)
+                                .background(Circle().fill(Color.blue.opacity(0.15)))
+                        }
+                        .accessibilityLabel("Dictionary")
+
+                        Button {
+                            showingSettings = true
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .font(.title2)
+                                .foregroundColor(.gray)
+                                .padding(10)
+                                .background(Circle().fill(Color.gray.opacity(0.15)))
+                        }
+                        .accessibilityLabel("Settings")
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(UIColor.secondarySystemBackground))
+                            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    )
+                    .padding(.leading, 20)
+                    .padding(.bottom, 20)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 }
                 .edgesIgnoringSafeArea(.bottom)
                 .onAppear {
-                    setupAudio()
                     startGapTimer()
                 }
                 .onDisappear {
-                    stopAudio()
                     stopGapTimer()
+                    tonePlayer.shutdown()
                 }
                 .sheet(isPresented: $showingSettings) {
                     SettingsView(wpm: $wpm, frequency: $frequency)
@@ -222,11 +250,29 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
         }
+
     }
 
     private func paddleView(isPressed: Binding<Bool>, element: MorseElement, color: Color) -> some View {
-        Rectangle()
-            .fill(isPressed.wrappedValue ? color : .white)
+        RoundedRectangle(cornerRadius: 20)
+            .fill(
+                isPressed.wrappedValue
+                ? AnyShapeStyle(
+                    LinearGradient(
+                        gradient: Gradient(colors: [color.opacity(0.7), color]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing)
+                  )
+                : AnyShapeStyle(Color.white)
+            )
+
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(color, lineWidth: 3)
+                    .opacity(isPressed.wrappedValue ? 0 : 0.6)
+            )
+            .shadow(color: isPressed.wrappedValue ? color.opacity(0.6) : Color.black.opacity(0.1),
+                    radius: isPressed.wrappedValue ? 10 : 3, x: 0, y: isPressed.wrappedValue ? 5 : 2)
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { _ in
@@ -243,7 +289,9 @@ struct ContentView: View {
             )
             .accessibilityLabel(element == .dit ? "Dit paddle" : "Dah paddle")
             .accessibilityAddTraits(.isButton)
+            .padding(8)
     }
+
 
     private func enqueue(_ element: MorseElement) {
         elementQueue.append(element)
@@ -280,7 +328,8 @@ struct ContentView: View {
             let unit = self.unitDuration()
             let duration = unit * (next == .dit ? 1 : 3)
 
-            self.tonePlayer.play(frequency: self.frequency, duration: duration)
+            tonePlayer.play(frequency: self.frequency, duration: duration)
+
 
             DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                 self.morseBuffer += (next == .dit ? "." : "-")
@@ -308,8 +357,8 @@ struct ContentView: View {
 
             if gap >= unit * 20 {
                 self.finishCharacter()
-                if !self.decodedText.hasSuffix("<|>") {
-                    self.decodedText += "<|>"
+                if false {
+                    self.decodedText += ""
                 }
                 self.lastInputTime = Date.distantFuture
             } else if gap >= unit * 12 {
@@ -336,7 +385,7 @@ struct ContentView: View {
     }
 
     private func setupAudio() {
-        tonePlayer.attach(to: audioEngine)
+//        tonePlayer.attach(to: audioEngine)
         do {
             try audioEngine.start()
         } catch {
@@ -346,7 +395,7 @@ struct ContentView: View {
 
     private func stopAudio() {
         audioEngine.stop()
-        tonePlayer.detach(from: audioEngine)
+//        tonePlayer.detach(from: audioEngine)
     }
 }
 
@@ -364,6 +413,7 @@ struct DictionaryRootView: View {
                     }
                 }
             }
+            .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Dictionary", displayMode: .inline)
             .navigationBarItems(trailing: Button("Done") {
                 presentationMode.wrappedValue.dismiss()
@@ -376,7 +426,6 @@ struct DictionaryRootView: View {
 struct DictionaryCategoryView: View {
     let category: String
 
-    // Filter entries that belong to this category, then sort by abbreviation
     private var entriesInCategory: [DictionaryEntry] {
         allEntries
             .filter { $0.category == category }
@@ -385,12 +434,11 @@ struct DictionaryCategoryView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            VStack(spacing: 16) {
                 ForEach(entriesInCategory) { entry in
-                    // Each entry becomes a “card” with centered content:
-                    VStack(spacing: 4) {
+                    VStack(spacing: 6) {
                         Text(entry.abbreviation)
-                            .font(.system(size: 24, weight: .bold))
+                            .font(.system(size: 28, weight: .bold))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
 
@@ -401,23 +449,23 @@ struct DictionaryCategoryView: View {
                             .lineLimit(2)
                             .truncationMode(.tail)
                     }
-                    .frame(maxWidth: .infinity)            // fill horizontally
-                    .frame(height: 80, alignment: .center) // fixed height, content centered vertically
-                    .background(Color(UIColor.systemGray6))
-                    .cornerRadius(8)
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color(UIColor.systemGray6))
+                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    )
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 12)
+            .padding(.top, 16)
         }
         .navigationBarTitle(category, displayMode: .inline)
     }
 }
 
-
-
-// MARK: - Settings View (unchanged)
+// MARK: - Settings View (unchanged but added a bit more padding)
 struct SettingsView: View {
     @Binding var wpm: Double
     @Binding var frequency: Double
@@ -429,21 +477,27 @@ struct SettingsView: View {
                 Section(header: Text("Speed (WPM)")) {
                     Slider(value: $wpm, in: 5...45, step: 1)
                     Text("\(Int(wpm)) WPM")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
                 Section(header: Text("Frequency (Hz)")) {
                     Slider(value: $frequency, in: 200...1000, step: 10)
                     Text("\(Int(frequency)) Hz")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
             }
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: Button("Done") {
                 presentationMode.wrappedValue.dismiss()
             })
+            .padding(.top)
         }
     }
 }
 
-// MARK: - Morse Code Map (unchanged)
+// MARK: - Morse Code Map & AVTonePlayer remain unchanged
+
 enum MorseElement { case dit, dah }
 
 let morseToChar: [String: String] = [
@@ -468,50 +522,51 @@ let morseToChar: [String: String] = [
     ".-.-.": "+", "-....-": "-", "..--.-": "_", ".-..-.": "\"",
     "...-..-": "$", ".--.-.": "@"
 ]
+import AVFoundation
 
-// MARK: - AVTonePlayer (unchanged)
 class AVTonePlayer {
-    private let mixer = AVAudioMixerNode()
-    private var sourceNode: AVAudioSourceNode!
-    private var frequency: Double = 0
+    private let engine = AVAudioEngine()
+    private let player = AVAudioPlayerNode()
+    private var sampleRate: Double { engine.outputNode.outputFormat(forBus: 0).sampleRate }
 
-    func attach(to engine: AVAudioEngine) {
-        let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
-        var currentPhase: Double = 0
-        let phaseIncrement = { (freq: Double) in 2 * .pi * freq / sampleRate }
+    init() {
+        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
+        engine.attach(player)
+        engine.connect(player, to: engine.mainMixerNode, format: format)
 
-        sourceNode = AVAudioSourceNode { [unowned self] _, _, frameCount, audioBufferList in
-            let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
-            for frame in 0..<Int(frameCount) {
-                let sample = Float(sin(currentPhase))
-                for buffer in abl {
-                    buffer.mData?.assumingMemoryBound(to: Float.self)[frame] = sample
-                }
-                currentPhase += phaseIncrement(self.frequency)
-                if currentPhase >= 2 * .pi { currentPhase -= 2 * .pi }
-            }
-            return noErr
+        do {
+            try engine.start()
+        } catch {
+            print("Audio engine failed: \(error)")
         }
-
-        engine.attach(sourceNode)
-        engine.attach(mixer)
-        engine.connect(sourceNode, to: mixer, format: nil)
-        engine.connect(mixer, to: engine.mainMixerNode, format: nil)
-        mixer.outputVolume = 0
-    }
-
-    func detach(from engine: AVAudioEngine) {
-        engine.disconnectNodeOutput(sourceNode)
-        engine.detach(sourceNode)
-        engine.disconnectNodeOutput(mixer)
-        engine.detach(mixer)
     }
 
     func play(frequency: Double, duration: TimeInterval) {
-        self.frequency = frequency
-        mixer.outputVolume = 1
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            self.mixer.outputVolume = 0
+        guard frequency > 0 else { return }
+
+        let frameCount = AVAudioFrameCount(sampleRate * duration)
+        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount) else { return }
+
+        buffer.frameLength = frameCount
+        let samples = buffer.floatChannelData![0]
+        let increment = Float(2 * Double.pi * frequency / sampleRate)
+
+        var theta: Float = 0
+        for i in 0..<Int(frameCount) {
+            samples[i] = sin(theta)
+            theta += increment
         }
+
+        player.scheduleBuffer(buffer, at: nil, options: []) { }
+        player.play()
+    }
+
+    func stop() {
+        player.stop()
+    }
+
+    func shutdown() {
+        engine.stop()
     }
 }
