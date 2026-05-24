@@ -38,7 +38,7 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Letters", abbreviation: "X", definition: "-..-"),
     .init(category: "Letters", abbreviation: "Y", definition: "-.--"),
     .init(category: "Letters", abbreviation: "Z", definition: "--.."),
-    
+
     // Numbers
     .init(category: "Numbers", abbreviation: "0", definition: "-----"),
     .init(category: "Numbers", abbreviation: "1", definition: ".----"),
@@ -50,7 +50,7 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Numbers", abbreviation: "7", definition: "--..."),
     .init(category: "Numbers", abbreviation: "8", definition: "---.."),
     .init(category: "Numbers", abbreviation: "9", definition: "----."),
-    
+
     // Punctuation
     .init(category: "Punctuation", abbreviation: ".", definition: ".-.-.-"),
     .init(category: "Punctuation", abbreviation: ",", definition: "--..--"),
@@ -70,7 +70,7 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Punctuation", abbreviation: "\"", definition: ".-..-."),
     .init(category: "Punctuation", abbreviation: "$", definition: "...-..-"),
     .init(category: "Punctuation", abbreviation: "@", definition: ".--.-."),
-    
+
     // Ham Radio Common Abbreviations
     .init(category: "Ham Radio Common", abbreviation: "<AA>", definition: "New line"),
     .init(category: "Ham Radio Common", abbreviation: "<AR>", definition: "End of message"),
@@ -85,7 +85,7 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Ham Radio Common", abbreviation: "<SK>", definition: "End of transmission"),
     .init(category: "Ham Radio Common", abbreviation: "<SN>", definition: "Understood"),
     .init(category: "Ham Radio Common", abbreviation: "<SOS>", definition: "Distress message"),
-    
+
     // Common Abbreviations
     .init(category: "Common Abbreviations", abbreviation: "73", definition: "Best regards"),
     .init(category: "Common Abbreviations", abbreviation: "88", definition: "Love and kisses"),
@@ -100,7 +100,7 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Common Abbreviations", abbreviation: "R", definition: "Received / Roger"),
     .init(category: "Common Abbreviations", abbreviation: "RST", definition: "Signal report (599)"),
     .init(category: "Common Abbreviations", abbreviation: "UR", definition: "You are"),
-    
+
     // Q Codes - Statements
     .init(category: "Q Codes (Statements)", abbreviation: "QRL", definition: "The frequency is in use"),
     .init(category: "Q Codes (Statements)", abbreviation: "QRM", definition: "Your transmission is being interfered with"),
@@ -117,7 +117,7 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Q Codes (Statements)", abbreviation: "QSB", definition: "Your signals are fading"),
     .init(category: "Q Codes (Statements)", abbreviation: "QSL", definition: "I acknowledge receipt"),
     .init(category: "Q Codes (Statements)", abbreviation: "QTH", definition: "My location is..."),
-    
+
     // Q Codes - Questions
     .init(category: "Q Codes (Questions)", abbreviation: "QRL?", definition: "Is the frequency in use?"),
     .init(category: "Q Codes (Questions)", abbreviation: "QRM?", definition: "Is my transmission being interfered with?"),
@@ -136,19 +136,28 @@ let allEntries: [DictionaryEntry] = [
     .init(category: "Q Codes (Questions)", abbreviation: "QTH?", definition: "What is your location?")
 ]
 
-// Compute a sorted array of unique category names
+// Logical display order — avoids non-deterministic Set ordering
+private let categoryOrder: [String] = [
+    "Letters", "Numbers", "Punctuation",
+    "Ham Radio Common", "Common Abbreviations",
+    "Q Codes (Statements)", "Q Codes (Questions)"
+]
+
 private var categories: [String] {
-    Array(Set(allEntries.map { $0.category }))
-        .sorted(by: { $0 < $1 })
+    categoryOrder.filter { cat in allEntries.contains { $0.category == cat } }
 }
 
 // MARK: - Main View
 struct ContentView: View {
-    @State private var wpm: Double = 20
-    @State private var frequency: Double = 500
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var isTonePlaying = false
+
+    @AppStorage("wpm") private var wpm: Double = 20
+    @AppStorage("frequency") private var frequency: Double = 500
+    @AppStorage("useFlashlight") private var useFlashlight: Bool = false
+
     @State private var showingSettings = false
     @State private var showingDictionary = false
-
     @State private var isDitPressed = false
     @State private var isDahPressed = false
 
@@ -162,87 +171,137 @@ struct ContentView: View {
 
     @State private var gapTimer: Timer?
 
-    private var audioEngine = AVAudioEngine()
-    private var tonePlayer = AVTonePlayer()
+    // BUG FIX: @StateObject ensures a single engine instance lives for the view's lifetime.
+    // `private var` was creating a new AVTonePlayer (and audio engine) on every render.
+    @StateObject private var tonePlayer = AVTonePlayer()
 
     var body: some View {
         NavigationView {
             GeometryReader { geo in
-                ZStack {
-                    // Main layout stack (what's currently on screen)
-                    VStack(spacing: 12) {
-            
-                        Text("\(decodedText)")
+                VStack(spacing: 0) {
+                    // Text display area
+                    VStack(spacing: 6) {
+                        Text(decodedText.isEmpty ? "Decoded text appears here" : decodedText)
                             .font(.headline)
-                        
-                        Text("\(morseBuffer)")
-                            .font(.title)
-                        Spacer()
+                            .foregroundColor(decodedText.isEmpty ? .secondary : .primary)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(5)
 
-                        HStack(spacing: 0) {
-                            paddleView(isPressed: $isDitPressed, element: .dit, color: .blue)
-                            paddleView(isPressed: $isDahPressed, element: .dah, color: .green)
-                        }
-                        .frame(height: geo.size.height / 2)
+                        Text(morseBuffer.isEmpty ? " " : morseBuffer)
+                            .font(.title.monospaced())
+                            .foregroundColor(morseBuffer.isEmpty ? .clear : .primary)
+                            .animation(.none, value: morseBuffer)
                     }
-                    .padding()
-
-                    // ✅ BOTTOM LEFT MENU BUTTON STACK
-                    VStack(spacing: 12) {
-                        Button {
-                            morseBuffer = ""
-                            decodedText = ""
-                        } label: {
-                            Image(systemName: "trash")
-                                .font(.title2)
-                                .foregroundColor(.red)
-                                .padding(10)
-                                .background(Circle().fill(Color.red.opacity(0.15)))
-                        }
-                        .accessibilityLabel("Clear")
-
-                        Button {
-                            showingDictionary = true
-                        } label: {
-                            Image(systemName: "character.book.closed")
-                                .font(.title2)
-                                .foregroundColor(.blue)
-                                .padding(10)
-                                .background(Circle().fill(Color.blue.opacity(0.15)))
-                        }
-                        .accessibilityLabel("Dictionary")
-
-                        Button {
-                            showingSettings = true
-                        } label: {
-                            Image(systemName: "gearshape")
-                                .font(.title2)
-                                .foregroundColor(.gray)
-                                .padding(10)
-                                .background(Circle().fill(Color.gray.opacity(0.15)))
-                        }
-                        .accessibilityLabel("Settings")
-                    }
-                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .padding(.horizontal)
                     .background(
-                        RoundedRectangle(cornerRadius: 20)
+                        RoundedRectangle(cornerRadius: 16)
                             .fill(Color(UIColor.secondarySystemBackground))
-                            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                     )
+                    .overlay(alignment: .topTrailing) {
+                        Button {
+                            UIPasteboard.general.string = decodedText
+                        } label: {
+                            Image(systemName: "doc.on.doc")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(10)
+                        }
+                        .disabled(decodedText.isEmpty)
+                        .opacity(decodedText.isEmpty ? 0 : 1)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+
+                    // Control buttons sit in the gap between text and paddles
+                    HStack {
+                        VStack(spacing: 12) {
+                            Button {
+                                morseBuffer = ""
+                                decodedText = ""
+                            } label: {
+                                Image(systemName: "trash")
+                                    .font(.title2)
+                                    .foregroundColor(.red)
+                                    .padding(10)
+                                    .background(Circle().fill(Color.red.opacity(0.15)))
+                            }
+                            .accessibilityLabel("Clear")
+
+                            Button {
+                                guard !decodedText.isEmpty else { return }
+                                decodedText.removeLast()
+                            } label: {
+                                Image(systemName: "delete.backward")
+                                    .font(.title2)
+                                    .foregroundColor(.orange)
+                                    .padding(10)
+                                    .background(Circle().fill(Color.orange.opacity(0.15)))
+                            }
+                            .disabled(decodedText.isEmpty)
+                            .accessibilityLabel("Backspace")
+
+                            Button {
+                                showingDictionary = true
+                            } label: {
+                                Image(systemName: "character.book.closed")
+                                    .font(.title2)
+                                    .foregroundColor(.blue)
+                                    .padding(10)
+                                    .background(Circle().fill(Color.blue.opacity(0.15)))
+                            }
+                            .accessibilityLabel("Dictionary")
+
+                            Button {
+                                showingSettings = true
+                            } label: {
+                                Image(systemName: "gearshape")
+                                    .font(.title2)
+                                    .foregroundColor(.gray)
+                                    .padding(10)
+                                    .background(Circle().fill(Color.gray.opacity(0.15)))
+                            }
+                            .accessibilityLabel("Settings")
+                        }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(UIColor.secondarySystemBackground))
+                                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                        )
+
+                        Spacer()
+                    }
                     .padding(.leading, 20)
-                    .padding(.bottom, 20)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .padding(.top, 16)
+
+                    Spacer()
+
+                    HStack(spacing: 0) {
+                        paddleView(isPressed: $isDitPressed, element: .dit, color: .blue, label: "DIT")
+                        paddleView(isPressed: $isDahPressed, element: .dah, color: .green, label: "DAH")
+                    }
+                    .frame(height: geo.size.height / 2)
                 }
                 .edgesIgnoringSafeArea(.bottom)
                 .onAppear {
                     startGapTimer()
+                    tonePlayer.restart()
                 }
                 .onDisappear {
                     stopGapTimer()
                     tonePlayer.shutdown()
                 }
+                .onChange(of: scenePhase) { newPhase in
+                    if newPhase != .active {
+                        forceReleasePaddles()
+                    } else {
+                        tonePlayer.restart()
+                    }
+                }
                 .sheet(isPresented: $showingSettings) {
-                    SettingsView(wpm: $wpm, frequency: $frequency)
+                    SettingsView(wpm: $wpm, frequency: $frequency, useFlashlight: $useFlashlight)
                 }
                 .sheet(isPresented: $showingDictionary) {
                     DictionaryRootView()
@@ -250,48 +309,67 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
         }
-
     }
 
-    private func paddleView(isPressed: Binding<Bool>, element: MorseElement, color: Color) -> some View {
-        RoundedRectangle(cornerRadius: 20)
-            .fill(
-                isPressed.wrappedValue
-                ? AnyShapeStyle(
-                    LinearGradient(
-                        gradient: Gradient(colors: [color.opacity(0.7), color]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing)
-                  )
-                : AnyShapeStyle(Color.white)
-            )
+    private func forceReleasePaddles() {
+        isDitPressed = false
+        isDahPressed = false
+        keyingWorkItem?.cancel()
+        keyingWorkItem = nil
+        isTonePlaying = false
+        tonePlayer.stop()
+        if useFlashlight { setFlashlight(on: false) }
+    }
 
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(color, lineWidth: 3)
-                    .opacity(isPressed.wrappedValue ? 0 : 0.6)
-            )
-            .shadow(color: isPressed.wrappedValue ? color.opacity(0.6) : Color.black.opacity(0.1),
-                    radius: isPressed.wrappedValue ? 10 : 3, x: 0, y: isPressed.wrappedValue ? 5 : 2)
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
-                        if !isPressed.wrappedValue {
-                            isPressed.wrappedValue = true
-                            enqueue(element)
-                            paddleChanged()
-                        }
-                    }
-                    .onEnded { _ in
-                        isPressed.wrappedValue = false
+    private func paddleView(isPressed: Binding<Bool>, element: MorseElement, color: Color, label: String) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(
+                    isPressed.wrappedValue
+                    ? AnyShapeStyle(
+                        LinearGradient(
+                            gradient: Gradient(colors: [color.opacity(0.7), color]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing)
+                      )
+                    : AnyShapeStyle(Color(UIColor.systemBackground))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(color, lineWidth: 3)
+                        .opacity(isPressed.wrappedValue ? 0 : 0.6)
+                )
+                .shadow(
+                    color: isPressed.wrappedValue ? color.opacity(0.6) : Color.black.opacity(0.1),
+                    radius: isPressed.wrappedValue ? 10 : 3,
+                    x: 0, y: isPressed.wrappedValue ? 5 : 2
+                )
+
+            Text(label)
+                .font(.system(size: 22, weight: .bold, design: .monospaced))
+                .foregroundColor(isPressed.wrappedValue ? .white : color)
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    if !isPressed.wrappedValue {
+                        isPressed.wrappedValue = true
+                        // Differentiated haptics: light tap for dit, heavier for dah
+                        let style: UIImpactFeedbackGenerator.FeedbackStyle = element == .dit ? .medium : .heavy
+                        UIImpactFeedbackGenerator(style: style).impactOccurred()
+                        enqueue(element)
                         paddleChanged()
                     }
-            )
-            .accessibilityLabel(element == .dit ? "Dit paddle" : "Dah paddle")
-            .accessibilityAddTraits(.isButton)
-            .padding(8)
+                }
+                .onEnded { _ in
+                    isPressed.wrappedValue = false
+                    paddleChanged()
+                }
+        )
+        .accessibilityLabel(element == .dit ? "Dit paddle" : "Dah paddle")
+        .accessibilityAddTraits(.isButton)
+        .padding(8)
     }
-
 
     private func enqueue(_ element: MorseElement) {
         elementQueue.append(element)
@@ -328,10 +406,14 @@ struct ContentView: View {
             let unit = self.unitDuration()
             let duration = unit * (next == .dit ? 1 : 3)
 
-            tonePlayer.play(frequency: self.frequency, duration: duration)
+            self.isTonePlaying = true
+            self.tonePlayer.play(frequency: self.frequency, duration: duration)
 
+            if self.useFlashlight { self.setFlashlight(on: true) }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                self.isTonePlaying = false
+                if self.useFlashlight { self.setFlashlight(on: false) }
                 self.morseBuffer += (next == .dit ? "." : "-")
                 self.lastInputTime = Date()
             }
@@ -351,23 +433,23 @@ struct ContentView: View {
     }
 
     private func startGapTimer() {
-        gapTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+        gapTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+            if self.isTonePlaying { return }
+            if self.isDitPressed || self.isDahPressed { return }
+
             let gap = Date().timeIntervalSince(self.lastInputTime)
             let unit = self.unitDuration()
 
-            if gap >= unit * 20 {
+            if gap >= unit * 7 {
                 self.finishCharacter()
-                if false {
-                    self.decodedText += ""
-                }
-                self.lastInputTime = Date.distantFuture
-            } else if gap >= unit * 12 {
-                self.finishCharacter()
-                if !self.decodedText.hasSuffix(" ") {
+                if !self.decodedText.hasSuffix(" ") && !self.decodedText.isEmpty {
                     self.decodedText += " "
                 }
-            } else if gap >= unit * 4 {
+                // BUG FIX: reset lastInputTime so this branch doesn't re-fire every 50ms while idle
+                self.lastInputTime = Date()
+            } else if gap >= unit * 3 && !self.morseBuffer.isEmpty {
                 self.finishCharacter()
+                // finishCharacter() already resets lastInputTime
             }
         }
     }
@@ -379,23 +461,25 @@ struct ContentView: View {
 
     private func finishCharacter() {
         guard !morseBuffer.isEmpty else { return }
-        let char = morseToChar[morseBuffer] ?? "Ø"
+        let char = morseToChar[morseBuffer] ?? "?"
         decodedText += char
         morseBuffer = ""
+        lastInputTime = Date()
     }
 
-    private func setupAudio() {
-//        tonePlayer.attach(to: audioEngine)
+    private func setFlashlight(on: Bool) {
+        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
         do {
-            try audioEngine.start()
+            try device.lockForConfiguration()
+            if on {
+                try device.setTorchModeOn(level: 1.0)
+            } else {
+                device.torchMode = .off
+            }
+            device.unlockForConfiguration()
         } catch {
-            print("Audio engine failed to start: \(error)")
+            print("Flashlight error: \(error)")
         }
-    }
-
-    private func stopAudio() {
-        audioEngine.stop()
-//        tonePlayer.detach(from: audioEngine)
     }
 }
 
@@ -465,10 +549,12 @@ struct DictionaryCategoryView: View {
     }
 }
 
-// MARK: - Settings View (unchanged but added a bit more padding)
+// MARK: - Settings View
 struct SettingsView: View {
     @Binding var wpm: Double
     @Binding var frequency: Double
+    @Binding var useFlashlight: Bool
+
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -486,6 +572,9 @@ struct SettingsView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
+                Section(header: Text("Flashlight")) {
+                    Toggle("Enable Flashlight Feedback", isOn: $useFlashlight)
+                }
             }
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: Button("Done") {
@@ -496,7 +585,7 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Morse Code Map & AVTonePlayer remain unchanged
+// MARK: - Morse Code Map
 
 enum MorseElement { case dit, dah }
 
@@ -522,18 +611,34 @@ let morseToChar: [String: String] = [
     ".-.-.": "+", "-....-": "-", "..--.-": "_", ".-..-.": "\"",
     "...-..-": "$", ".--.-.": "@"
 ]
-import AVFoundation
 
-class AVTonePlayer {
+// MARK: - AVTonePlayer
+
+// ObservableObject conformance allows @StateObject use in ContentView,
+// ensuring a single engine instance for the view's lifetime.
+class AVTonePlayer: ObservableObject {
     private let engine = AVAudioEngine()
     private let player = AVAudioPlayerNode()
     private var sampleRate: Double { engine.outputNode.outputFormat(forBus: 0).sampleRate }
 
     init() {
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers])
+        try? AVAudioSession.sharedInstance().setActive(true)
+
         let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
         engine.attach(player)
         engine.connect(player, to: engine.mainMixerNode, format: format)
 
+        startEngine()
+    }
+
+    func restart() {
+        guard !engine.isRunning else { return }
+        try? AVAudioSession.sharedInstance().setActive(true)
+        startEngine()
+    }
+
+    private func startEngine() {
         do {
             try engine.start()
         } catch {
@@ -553,8 +658,19 @@ class AVTonePlayer {
         let increment = Float(2 * Double.pi * frequency / sampleRate)
 
         var theta: Float = 0
+        let fadeSamples = Int(sampleRate * 0.005) // 5ms fade to avoid clicks
+
         for i in 0..<Int(frameCount) {
-            samples[i] = sin(theta)
+            var sample = sin(theta)
+
+            if i < fadeSamples {
+                sample *= Float(i) / Float(fadeSamples)
+            }
+            if i >= Int(frameCount) - fadeSamples {
+                sample *= max(0, Float(Int(frameCount) - i) / Float(fadeSamples))
+            }
+
+            samples[i] = sample
             theta += increment
         }
 
